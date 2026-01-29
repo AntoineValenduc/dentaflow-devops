@@ -1,4 +1,3 @@
-const appName = 'DentaFlow';
-console.log(`Bienvenue sur ${appName}`);
-
-export const sum = (a, b) => a + b;
+export const getStatus = () => {
+  return "DentaFlow API is running";
+};
