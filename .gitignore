@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+# Environment
+.env
+.env.local
+.env.production
+# Build
+dist/
+build/
+.coverage/
+# IDE
+.vscode/
+.idea/
+*.swp
+# Système
+.DS_Store
+Thumbs.db
+# Logs
+logs/*.log
+!logs/.gitkeep
+# Docker
+docker-compose.override.yml
