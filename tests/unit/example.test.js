@@ -7,3 +7,8 @@ describe('Suite de tests DentaFlow', () => {
  expect(process.env.NODE_ENV).toBe('test');
  });
 });
+
+import { sum } from '../../src/index.js';
+test('Addition sum function', () => {
+  expect(sum(2, 2)).toBe(4);
+});
