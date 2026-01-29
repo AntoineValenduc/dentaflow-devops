@@ -1,0 +1,30 @@
+module.exports = {
+ definition: {
+ openapi: '3.0.0',
+ info: {
+ title: 'API DentaFlow - Gestion Dentaire',
+ version: '1.0.0',
+ description: 'API sécurisée pour la gestion des patients et modèles 3D dentaires',
+ contact: {
+ name: 'Équipe DentaFlow',
+ email: 'contact@dentaflow.fr'
+ }
+ },
+ servers: [
+ {
+ url: 'http://localhost:3000/api/v1',
+ description: 'Serveur de développement'
+ }
+ ],
+ components: {
+ securitySchemes: {
+ bearerAuth: {
+ type: 'http',
+ scheme: 'bearer',
+ bearerFormat: 'JWT'
+ }
+ }
+ }
+ },
+ apis: ['./src/api/routes/*.js'] // Chemin vers vos fichiers de routes
+};
