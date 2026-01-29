@@ -4,6 +4,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+
 jobs:
   # JOB 1 : Qualité et Sécurité
   quality-check:
@@ -11,28 +12,40 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important pour SonarCloud (historique git)
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
+
       - name: Install dependencies
-        run: npm ci
+        run: npm install # On utilise install car tu es en phase de dev (pas encore de lock stable)
+
       - name: Run ESLint
         run: npm run lint
+
       - name: Run unit tests with coverage
         run: npm test
         env:
           NODE_ENV: test
+
       - name: Upload coverage to SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: sonarsource/sonarcloud-github-action@v3 # v3 est plus stable que master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Security audit (npm audit)
         run: npm audit --audit-level=high
+
       - name: Dependency vulnerability scan
-        uses: actions/dependency-review-action@v3
+        # Cette étape ne s'exécute QUE lors d'une Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v4
+
   # JOB 2 : Build Docker
   docker-build:
     needs: quality-check
@@ -45,6 +58,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t dentaflow:latest .
+
   # JOB 3 : Déploiement Staging (optionnel)
   deploy-staging:
     needs: [quality-check, docker-build]
@@ -54,7 +68,3 @@ jobs:
       - name: Deploy to Staging Simulation
         run: |
           echo "Déploiement staging simulé"
-          echo "En production, on déploierait sur :"
-          echo "- Heroku: git push heroku develop:main"
-          echo "- AWS: aws ecr push"
-          echo "- OVH: docker-compose up -d"
