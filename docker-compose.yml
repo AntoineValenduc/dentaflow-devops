@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:15-alpine
@@ -26,11 +28,11 @@ services:
     build: .
     container_name: dentaflow_app
     ports:
-      - "8000:8000"
+      - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:dev_password@postgres:5432/dentaflow_dev
-      - REDIS_URL=redis://redis:6379/0
-      - ENV=development
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PASSWORD=dev_password
     depends_on:
       postgres:
         condition: service_healthy
@@ -38,8 +40,8 @@ services:
         condition: service_started
     volumes:
       - .:/app
-    # ATTENTION Adaptation FastAPI Python avec rechargement automatique
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      - /app/node_modules
+    command: npm run dev
 
 volumes:
   postgres_data:
