@@ -12,7 +12,7 @@
         "lint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
         "security": "npm audit --audit-level=high",
-        "docs": "swagger-jsdoc -d docs/swagger-definition.js src/api/ > docs/swagger.json"
+        "docs": "swagger-jsdoc -d docs/swagger-definition.cjs \"src/api/**/*.js\" -o docs/swagger.json"
     },
     "keywords": [
         "dental",
