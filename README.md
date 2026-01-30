@@ -2,8 +2,8 @@
 > Application DevOps/Sécurisée pour la gestion des patients et modèles 3D dentaires
 ## Démarrage Rapide
 # 1. Cloner le projet
-git clone https://github.com/DentaFlow-Groupes/dentaflow_devops.git
-cd dentaflow-devops²
+git clone https://github.com/AntoineValenduc/dentaflow-devops.git
+cd dentaflow-devops
 # 2. Configuration environnement
 cp .env.example .env # Éditer .env avec vos valeurs
 # 3. Installation et lancement
@@ -18,6 +18,9 @@ docker-compose up -d
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
+├── docs/
+│   ├── swagger-definition.cjs
+│   └── swagger.json
 ├── src/
 │   └── index.js
 ├── tests/
